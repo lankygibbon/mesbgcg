@@ -4,47 +4,29 @@
   import Header from "./Header.svelte";
   import i_cardTypes from "../data/card-types.json";
   import i_factions from "../data/factions.json";
+  import CardForm from "./CardForm.svelte";
+  import type { Card } from "../types/card.type";
 
   type Type = {
     name: string;
     value: string;
   };
-  type Card = {
-    name: string;
-    keywords: string;
-    faction: string;
-    type: string;
-    customType: string;
-    color: "#ff4f02";
-    textColor: "#303030";
-    cost: "";
-    description: "";
 
-    mv: number;
-    f: number;
-    fs: number;
-    s: number;
-    d: number;
-    a: number;
-    w: number;
-    c: number;
-    wargear: string[];
-    options: string[];
-    magic: string[];
-    special: string[];
-    herioc: string[];
-    rules: string[];
+  type List = {
+    name: string;
+    model: Card[];
   };
 
   let factions: Type[] = [];
   let cardTypes: Type[] = [];
 
-  let list = {
-    name: "",
+  let list: List = {
+    name: "Test List",
     model: [],
   };
+
   let card: Card = {
-    name: "",
+    name: "Default",
     keywords: "",
     faction: "",
     type: "type",
@@ -83,15 +65,14 @@
     cardTypes = i_cardTypes;
   });
 
-  function addCardToList(list, card: Card) {
-    if (this.cardIndex != null) {
-      this.list[list][this.cardIndex] = card;
-    } else {
-      this.list[list].push(card);
-    }
+  function addCardToList(): any {
+    list.model = [...list.model, { ...card }];
 
-    this.card = card;
-    this.showCardForm = false;
+    card.name = "";
+  }
+  function deleteCardFromList(index: number): any {
+    list.model.splice(index, 1);
+    list.model = list.model;
   }
 </script>
 
@@ -106,4 +87,10 @@
   {#each cardTypes as type}
     <li>{type.name}</li>
   {/each}
+  {#each list.model as item, index}
+    <li>
+      {item.name}<button on:click={() => deleteCardFromList(index)}>❌</button>
+    </li>
+  {/each}
 </ul>
+<CardForm {card} saveCard={addCardToList} />

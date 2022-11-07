@@ -95,11 +95,11 @@
 </p>
 <div class="flex">
 <div class="max-w-sm mx-auto">
-<CardTemplate {card} />
+<CardTemplate bind:card={card} />
 </div>
 {#if showCardForm}
 <div class="max-w-sm mx-auto">
-<CardForm {card} saveCard={addCardToList} />
+<CardForm bind:card={card} saveCard={addCardToList} />
 </div>
 {/if}
 {#if !showCardForm}

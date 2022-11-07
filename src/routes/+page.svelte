@@ -6,15 +6,13 @@
   import i_factions from "../data/factions.json";
   import CardForm from "./CardForm.svelte";
   import type { Card } from "../types/card.type";
+  import CardTemplate from "./CardTemplate.svelte";
+  import CardList from "./CardList.svelte"
+  import type {List} from "../types/list.type"
 
   type Type = {
     name: string;
     value: string;
-  };
-
-  type List = {
-    name: string;
-    model: Card[];
   };
 
   let factions: Type[] = [];
@@ -53,7 +51,7 @@
   };
 
   let showCardForm = false;
-  let cardIndex = null;
+  let cardIndex:any = null;
   let cardName = "";
   let cardFaction = "";
   let cardType = "";
@@ -66,31 +64,47 @@
   });
 
   function addCardToList(): any {
-    list.model = [...list.model, { ...card }];
-
-    card.name = "";
+    if (cardIndex != null){
+      list.model[cardIndex] = {...card};
+      card = card;
+    }else{
+      list.model = [...list.model, { ...card }];
+      card = {...card};
+    }
+    showCardForm = false;
+    
   }
   function deleteCardFromList(index: number): any {
     list.model.splice(index, 1);
     list.model = list.model;
   }
+  function selectCard(index:number):any {
+    card = {...list.model[index]};
+    cardIndex = index;
+    showCardForm = true;
+  }
+  function addACard():any{
+    cardIndex = null;
+    showCardForm = true;
+  }
 </script>
 
-<h1>Header</h1>
+<h1 class="text-3xl font-bold underline" >Header</h1>
 <p>
   Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation
 </p>
-<ul>
-  {#each factions as faction}
-    <li>{faction.name}</li>
-  {/each}
-  {#each cardTypes as type}
-    <li>{type.name}</li>
-  {/each}
-  {#each list.model as item, index}
-    <li>
-      {item.name}<button on:click={() => deleteCardFromList(index)}>❌</button>
-    </li>
-  {/each}
-</ul>
+<div class="flex">
+<div class="max-w-sm mx-auto">
+<CardTemplate {card} />
+</div>
+{#if showCardForm}
+<div class="max-w-sm mx-auto">
 <CardForm {card} saveCard={addCardToList} />
+</div>
+{/if}
+{#if !showCardForm}
+<div class="max-w-sm mx-auto">
+<CardList {list} selectCard={selectCard} deleteCardFromList={deleteCardFromList} addACard={addACard}/>
+</div>
+{/if}
+</div>

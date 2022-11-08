@@ -7,8 +7,8 @@
   import CardForm from "./CardForm.svelte";
   import type { Card } from "../types/card.type";
   import CardTemplate from "./CardTemplate.svelte";
-  import CardList from "./CardList.svelte"
-  import type {List} from "../types/list.type"
+  import CardList from "./CardList.svelte";
+  import type { List } from "../types/list.type";
 
   type Type = {
     name: string;
@@ -51,7 +51,7 @@
   };
 
   let showCardForm = false;
-  let cardIndex:any = null;
+  let cardIndex: any = null;
   let cardName = "";
   let cardFaction = "";
   let cardType = "";
@@ -64,47 +64,72 @@
   });
 
   function addCardToList(): any {
-    if (cardIndex != null){
-      list.model[cardIndex] = {...card};
+    if (cardIndex != null) {
+      list.model[cardIndex] = { ...card };
       card = card;
-    }else{
+    } else {
       list.model = [...list.model, { ...card }];
-      card = {...card};
+      card = { ...card };
     }
     showCardForm = false;
-    
   }
   function deleteCardFromList(index: number): any {
     list.model.splice(index, 1);
     list.model = list.model;
   }
-  function selectCard(index:number):any {
-    card = {...list.model[index]};
+  function selectCard(index: number): any {
+    card = { ...list.model[index] };
     cardIndex = index;
     showCardForm = true;
   }
-  function addACard():any{
+  function addACard(): any {
+    card = {
+      name: "Default",
+      keywords: "",
+      faction: "",
+      type: "type",
+      customType: "",
+      color: "#ff4f02",
+      textColor: "#303030",
+      cost: "",
+      description: "",
+
+      mv: 0,
+      f: 0,
+      fs: 0,
+      s: 0,
+      d: 0,
+      a: 0,
+      w: 0,
+      c: 0,
+      wargear: [],
+      options: [],
+      magic: [],
+      special: [],
+      herioc: [],
+      rules: [],
+    };
     cardIndex = null;
     showCardForm = true;
   }
 </script>
 
-<h1 class="text-3xl font-bold underline" >Header</h1>
+<h1 class="text-3xl font-bold underline">Header</h1>
 <p>
   Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation
 </p>
 <div class="flex">
-<div class="max-w-sm mx-auto">
-<CardTemplate bind:card={card} />
-</div>
-{#if showCardForm}
-<div class="max-w-sm mx-auto">
-<CardForm bind:card={card} saveCard={addCardToList} />
-</div>
-{/if}
-{#if !showCardForm}
-<div class="max-w-sm mx-auto">
-<CardList {list} selectCard={selectCard} deleteCardFromList={deleteCardFromList} addACard={addACard}/>
-</div>
-{/if}
+  <div class="max-w-sm mx-auto">
+    <CardTemplate bind:card />
+  </div>
+  {#if showCardForm}
+    <div class="max-w-sm mx-auto">
+      <CardForm bind:card saveCard={addCardToList} />
+    </div>
+  {/if}
+  {#if !showCardForm}
+    <div class="max-w-sm mx-auto">
+      <CardList bind:list {selectCard} {deleteCardFromList} {addACard} />
+    </div>
+  {/if}
 </div>

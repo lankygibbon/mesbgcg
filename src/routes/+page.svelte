@@ -9,6 +9,7 @@
   import CardTemplate from "./CardTemplate.svelte";
   import CardList from "./CardList.svelte";
   import type { List } from "../types/list.type";
+  import html2canvas from "html2canvas";
 
   type Type = {
     name: string;
@@ -82,6 +83,17 @@
     cardIndex = index;
     showCardForm = true;
   }
+  function downloadCard(): any {
+    html2canvas(document.getElementById("card_template") as HTMLElement).then(
+      (canvas) => {
+        var link = document.createElement("a");
+        link.download =
+          card.name.replace(/[^0-9a-z]/gi, "_").toLowerCase() + ".png";
+        link.href = canvas.toDataURL();
+        link.click();
+      }
+    );
+  }
   function addACard(): any {
     card = {
       name: "Default",
@@ -114,22 +126,22 @@
   }
 </script>
 
-<h1 class="text-3xl font-bold underline">Header</h1>
-<p>
-  Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation
-</p>
-<div class="flex">
-  <div class="max-w-sm mx-auto">
-    <CardTemplate bind:card />
+<div class="min-h-screen flex items center bg-slate-300">
+  <div class="flex-1 max-w-5xl mx-auto p-10">
+    <div class="grid grid-cols1 sm:grid-cols-2 gap-4">
+      <div class="bg-white rounded-sm shadow-xl " id="card_template">
+        <CardTemplate bind:card />
+      </div>
+      {#if showCardForm}
+        <div class="bg-white rounded-sm shadow-xl">
+          <CardForm bind:card {downloadCard} saveCard={addCardToList} />
+        </div>
+      {/if}
+      {#if !showCardForm}
+        <div class="bg-white rounded-sm shadow-xl">
+          <CardList bind:list {selectCard} {deleteCardFromList} {addACard} />
+        </div>
+      {/if}
+    </div>
   </div>
-  {#if showCardForm}
-    <div class="max-w-sm mx-auto">
-      <CardForm bind:card saveCard={addCardToList} />
-    </div>
-  {/if}
-  {#if !showCardForm}
-    <div class="max-w-sm mx-auto">
-      <CardList bind:list {selectCard} {deleteCardFromList} {addACard} />
-    </div>
-  {/if}
 </div>

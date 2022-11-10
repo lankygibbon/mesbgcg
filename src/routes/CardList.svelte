@@ -26,18 +26,24 @@
   }
 </script>
 
+<div class="p-2">
+<button class="inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2" on:click={() => exportList()}>Export List</button>
+<button class="inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2" on:click={() => fileInput.click()} on:change={() => loadList(files[0])}>Import List</button>
+<form class="p-2"><label>List Name:<input bind:value={list.name}/></label></form>
+
+<h2>Models</h2>
+<div class="rounded bg-gray-100">
 <ul>
   {#each list.model as item, index}
-    <li>
-      <span on:click={() => selectCard(index)} on:keydown={() => null}
-        >{item.name}</span
-      ><button on:click={() => deleteCardFromList(index)}>❌</button>
+    <li class="justify-between flex rounded my-1 hover:bg-slate-200">
+      <span class="align-middle px-2 py-1 my-auto w-full" on:click={() => selectCard(index)} on:keydown={() => null}>{item.name}</span>
+      <button class=" justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2" on:click={() => deleteCardFromList(index)}>DELETE</button>
     </li>
   {/each}
 </ul>
+</div>
 
-<button on:click={() => addACard()}>Add a Card</button>
-<button on:click={() => exportList()}>Export List</button>
+<button class="inline-flex justify-center rounded-md border border-transparent bg-indigo-600 my-2 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2" on:click={() => addACard()}>Add a Card</button>
 <input
   class="hidden"
   id="file-to-upload"
@@ -47,6 +53,5 @@
   bind:this={fileInput}
   on:change={() => loadList(files[0])}
 />
-<button on:click={() => fileInput.click()} on:change={() => loadList(files[0])}
-  >Import List</button
->
+
+</div>

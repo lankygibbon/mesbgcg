@@ -2,7 +2,11 @@
 module.exports = {
   content: ['./src/**/*.{html,js,svelte,ts}'],
   theme: {
-    extend: {},
+    extend: {
+      aspectRatio: {
+        'mtg': '5 / 7',
+      },
+    },
   },
   plugins: [],
 }

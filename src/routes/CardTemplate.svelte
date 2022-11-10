@@ -3,7 +3,7 @@
     export let card: Card;
 </script>
 
-<div id="card" class="card-container">
+<div id="card" class="aspect-mtg">
 <span>{card.name}</span>
 <span>{card.keywords}</span>
 <span>{card.faction}</span>

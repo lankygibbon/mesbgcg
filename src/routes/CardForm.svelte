@@ -7,7 +7,7 @@
 </script>
 
 <form class="p-2">
-  <div class="grid gap-6 mb-6">
+  <div class="grid gap-2 mb-6">
     <div>
       <label
         for="name"
@@ -36,7 +36,7 @@
     </div>
   </div>
   <div
-    class="grid gap-6 mb-6 lg:grid-cols-8 md:grid-cols-4 sm:grid-cols-2 grid-cols-2 text-center"
+    class="grid gap-2 mb-6 lg:grid-cols-8 md:grid-cols-4 sm:grid-cols-2 grid-cols-2 text-center"
   >
     <div>
       <label

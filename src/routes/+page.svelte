@@ -43,11 +43,26 @@
     a: 0,
     w: 0,
     c: 0,
+    might: 0,
+    will: 0,
+    fate: 0,
     wargear: [],
     options: [],
     magic: [],
     special: [],
-    herioc: [],
+    herioc: {
+      move: false,
+      shoot: false,
+      combat: false,
+      resolve: false,
+      march: false,
+      channeling: false,
+      accuracy: false,
+      strike: false,
+      defence: false,
+      strength: false,
+      challenge: false,
+    },
     rules: [],
   };
 
@@ -114,11 +129,26 @@
       a: 0,
       w: 0,
       c: 0,
+      might: 0,
+      will: 0,
+      fate: 0,
       wargear: [],
       options: [],
       magic: [],
       special: [],
-      herioc: [],
+      herioc: {
+        move: false,
+        shoot: false,
+        combat: false,
+        resolve: false,
+        march: false,
+        channeling: false,
+        accuracy: false,
+        strike: false,
+        defence: false,
+        strength: false,
+        challenge: false,
+      },
       rules: [],
     };
     cardIndex = null;
@@ -129,7 +159,7 @@
 <div class="min-h-screen flex items center bg-slate-300">
   <div class="flex-1 max-w-5xl mx-auto p-10">
     <div class="grid grid-cols1 sm:grid-cols-2 gap-4">
-      <div class="bg-white rounded-sm shadow-xl " id="card_template">
+      <div class="card_template" id="card_template">
         <CardTemplate bind:card />
       </div>
       {#if showCardForm}

@@ -8,6 +8,7 @@ export type Card = {
   textColor: string;
   cost: string;
   description: string;
+  hero: boolean;
 
   mv: number;
   f: number;

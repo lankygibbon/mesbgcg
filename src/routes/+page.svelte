@@ -34,6 +34,7 @@
     textColor: "#303030",
     cost: "",
     description: "",
+    hero: false,
 
     mv: 0,
     f: 0,
@@ -120,6 +121,7 @@
       textColor: "#303030",
       cost: "",
       description: "",
+      hero: false,
 
       mv: 0,
       f: 0,

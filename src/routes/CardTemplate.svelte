@@ -8,8 +8,8 @@
     <div class="text-lg">{card.name}</div>
     <div class="text-md">{card.keywords}</div>
   </div>
-  <div class="py-1">
-    <table class="table-auto w-full text-center">
+  <div class="py-1 flex">
+    <table class="table-fixed text-center w-full shadow-md rounded">
       <thead class="bg-slate-500">
         <tr>
           <th>Mv</th>
@@ -19,9 +19,6 @@
           <th>A</th>
           <th>W</th>
           <th>C</th>
-          <th>Mi</th>
-          <th>Wi</th>
-          <th>Ft</th>
         </tr>
       </thead>
       <tbody>
@@ -33,11 +30,26 @@
           <td>{card.a}</td>
           <td>{card.w}</td>
           <td>{card.c}</td>
-          <td>{card.might}</td>
-          <td>{card.will}</td>
-          <td>{card.fate}</td>
         </tr>
       </tbody>
     </table>
+    {#if card.hero}
+      <table class="ml-1 table-auto w-1/4 text-center shadow-md rounded">
+        <thead class="bg-slate-500">
+          <tr>
+            <th>M</th>
+            <th>W</th>
+            <th>F</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{card.might}</td>
+            <td>{card.will}</td>
+            <td>{card.fate}</td>
+          </tr>
+        </tbody>
+      </table>
+    {/if}
   </div>
 </div>

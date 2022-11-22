@@ -9,7 +9,9 @@
   import CardTemplate from "./CardTemplate.svelte";
   import CardList from "./CardList.svelte";
   import type { List } from "../types/list.type";
-  import html2canvas from "html2canvas";
+
+  // @ts-ignore
+  import domtoimage from "dom-to-image";
 
   type Type = {
     name: string;
@@ -100,15 +102,17 @@
     showCardForm = true;
   }
   function downloadCard(): any {
-    html2canvas(document.getElementById("card_template") as HTMLElement).then(
-      (canvas) => {
+    domtoimage
+      .toPng(document.getElementById("card_template") as HTMLElement, {
+        quality: 0.95,
+      })
+      .then(function (dataUrl: string) {
         var link = document.createElement("a");
         link.download =
           card.name.replace(/[^0-9a-z]/gi, "_").toLowerCase() + ".png";
-        link.href = canvas.toDataURL();
+        link.href = dataUrl;
         link.click();
-      }
-    );
+      });
   }
   function addACard(): any {
     card = {

@@ -1,4 +1,5 @@
 export type Card = {
+  id: string,
   name: string;
   keywords: string;
   faction: string;

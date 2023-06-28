@@ -1,15 +1,17 @@
 <script lang="ts">
   import type { List } from "../types/list.type";
+  import { addModel, deleteModel, selectModel } from "../stores/cardStore";
+  import { models } from "../stores/cardStore";
+  import { card } from "../stores/cardStore";
+  import { identity } from "svelte/internal";
+  import type { fromJSON } from "postcss";
   export let list: List;
-  export let selectCard: any;
-  export let deleteCardFromList: any;
-  export let addACard: any;
 
   function exportList() {
     var a = document.createElement("a");
     a.href =
       "data:text/json;charset=utf-8," +
-      encodeURIComponent(JSON.stringify(list, null, 2));
+      encodeURIComponent(JSON.stringify($models, null, 2));
     a.download = `${list.name.replace(/[^0-9a-z]/gi, "_").toLowerCase()}.json`;
     a.click();
   }
@@ -21,7 +23,7 @@
     const reader = new FileReader();
     reader.readAsText(file);
     reader.onload = (e) => {
-      list = JSON.parse(e.target?.result as string);
+      $models = JSON.parse(e.target?.result as string);
     };
   }
 </script>
@@ -43,18 +45,31 @@
   <div class="rounded bg-gray-100 p-1">
     <h2>Models</h2>
     <ul>
-      {#each list.model as item, index}
+      {#each $models as item}
         <li
-          class="justify-between flex rounded my-1 hover:bg-slate-300 bg-slate-200"
+          class="justify-between flex rounded my-1 hover:bg-slate-300 {item.id ===
+          $card.id
+            ? 'bg-purple-200'
+            : 'bg-slate-200'}"
         >
-          <span
-            class="cursor-pointer align-middle px-2 py-1 my-auto w-full"
-            on:click={() => selectCard(index)}
-            on:keydown={() => null}>{item.name}</span
+          <span class="align-middle px-2 py-1 my-auto w-full">{item.name}</span>
+
+          <button
+            class="mx-1 justify-center rounded-md border border-transparent bg-indigo-600 py-1 px-2 text-2xl font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+            on:click={() => selectModel(item.id)}
+            ><iconify-icon icon="mdi:eye" /></button
+          >
+          <a href="/edit"
+            ><button
+              class="mx-1 justify-center rounded-md border border-transparent bg-indigo-600 py-1 px-2 text-2xl font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+              on:click={() => selectModel(item.id)}
+              ><iconify-icon icon="mdi:edit" /></button
+            ></a
           >
           <button
-            class=" justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-            on:click={() => deleteCardFromList(index)}>DELETE</button
+            class="mx-1 justify-center rounded-md border border-transparent bg-indigo-600 py-1 px-2 text-2xl font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+            on:click={() => deleteModel(item.id)}
+            ><iconify-icon icon="mdi:delete-forever" /></button
           >
         </li>
       {/each}
@@ -63,7 +78,7 @@
 
   <button
     class="inline-flex justify-center rounded-md border border-transparent bg-indigo-600 my-2 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-    on:click={() => addACard()}>Add a Card</button
+    on:click={() => addModel()}>Add a Card</button
   >
   <input
     class="hidden"

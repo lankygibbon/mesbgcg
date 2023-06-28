@@ -5,6 +5,7 @@ module.exports = {
     extend: {
       aspectRatio: {
         'mtg': '5 / 7',
+        'mtg-dbl': '7 / 5',
       },
     },
   },

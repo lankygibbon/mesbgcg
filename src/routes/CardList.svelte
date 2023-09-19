@@ -7,6 +7,23 @@
   import type { fromJSON } from "postcss";
   export let list: List;
 
+  // @ts-ignore
+  import domtoimage from "dom-to-image";
+
+  function downloadCard(): any {
+    domtoimage
+      .toPng(document.getElementById("card_template") as HTMLElement, {
+        quality: 0.95,
+      })
+      .then(function (dataUrl: string) {
+        var link = document.createElement("a");
+        link.download =
+          $card.name.replace(/[^0-9a-z]/gi, "_").toLowerCase() + ".png";
+        link.href = dataUrl;
+        link.click();
+      });
+  }
+
   function exportList() {
     var a = document.createElement("a");
     a.href =
@@ -47,8 +64,7 @@
     <ul>
       {#each $models as item}
         <li
-          class="justify-between flex rounded my-1 hover:bg-slate-300 {item.id ===
-          $card.id
+          class="justify-between flex rounded my-1 {item.id === $card.id
             ? 'bg-purple-200'
             : 'bg-slate-200'}"
         >
@@ -58,6 +74,13 @@
             class="mx-1 justify-center rounded-md border border-transparent bg-indigo-600 py-1 px-2 text-2xl font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
             on:click={() => selectModel(item.id)}
             ><iconify-icon icon="mdi:eye" /></button
+          >
+          <button
+            class="mx-1 justify-center rounded-md border border-transparent bg-indigo-600 py-1 px-2 text-2xl font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+            on:click={() => {
+              selectModel(item.id);
+              downloadCard();
+            }}><iconify-icon icon="mdi:download" /></button
           >
           <a href="/edit"
             ><button

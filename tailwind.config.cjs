@@ -4,7 +4,7 @@ module.exports = {
   theme: {
     extend: {
       aspectRatio: {
-        'mtg': '5 / 7',
+        'mtg': '7 / 5',
         'mtg-dbl': '7 / 5',
       },
     },
